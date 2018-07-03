@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -41,7 +42,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     @Bean
     public JedisPool redisPoolFactory() {
         logger.info("JedisPool init！！");
-        logger.info("redis >> " + host + ":" + port);
+//        logger.info("redis >> " + sHost + ":" + sPort);
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
@@ -52,6 +53,26 @@ public class RedisConfiguration extends CachingConfigurerSupport {
 
         return jedisPool;
     }
+
+    @Bean
+    public Jedis jedisFactory() {
+        logger.info("JedisPool init！！");
+//        logger.info("redis >> " + sHost + ":" + sPort);
+        Jedis jedis = new Jedis(host,port);
+
+        return jedis;
+    }
+    
+    @Bean
+    public JedisPoolConfig redisPoolConfigFactory() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+        jedisPoolConfig.setMaxTotal(maxActive);
+        jedisPoolConfig.setMinIdle(minIdle);
+        
+        return jedisPoolConfig;
+    }   
     
     
 }

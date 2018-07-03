@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 import com.tuniu.mem.bean.User;
 import com.tuniu.mem.cdao.UserCache;
-import com.tuniu.mem.util.RedisImpl;
+import com.tuniu.mem.util.RedisClusterImpl;
 
 @Component
 public class UserCacheImpl implements UserCache{
 
 	@Autowired
-	private RedisImpl redisImpl;
+	private RedisClusterImpl redisImpl;
 	
 	public void insert(User user) {
 		redisImpl.setCache(user.getUserName(), user.getId(), 1000*60*60*24);
